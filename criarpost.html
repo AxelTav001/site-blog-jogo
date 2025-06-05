@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Cabeçalho e meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Criar Post - Blog de Jogos</title>
+</head>
+<body>
+    <!-- barra de navegação -->
+    <header>
+        <nav class="NavBar">
+            <ul>
+                <div class="menu-esquerda">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/sobre.html">Sobre</a></li>
+                    <li><a href="/posts.html">Posts</a></li>
+                </div>
+                <div class="menu-direita">
+                    <li><a href="/login/login.html">Login</a></li>
+                    <li><a href="/login/registro.html">Registro</a></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <!-----  fim da barra de navegação  ----->
+
+    <!-- conteúdo principal -->
+    <main>
+        <div class="welcome-section">
+            <h1>Criar Novo Post</h1>
+            <p>Compartilhe seu jogo com a comunidade</p>
+        </div>
+
+        <form class="create-post-form" id="createPostForm">
+            <!-- campo do título do post -->
+            <div class="form-group">
+                <label for="postTitle">Título do Post</label>
+                <input type="text" id="postTitle" name="postTitle" required 
+                       placeholder="Digite um título para seu post">
+            </div>
+            <!-- campo do conteúdo do post -->
+            <div class="form-group">
+                <label for="postContent">Conteúdo do Post</label>
+                <textarea id="postContent" name="postContent" required
+                          placeholder="Descreva seu jogo, compartilhe o código, explique como jogar..."></textarea>
+            </div>
+            <!-- campo de upload de imagem -->
+            <div class="form-group">
+                <label>Imagem do Jogo (opcional)</label>
+                <div class="image-upload" id="imageUpload">
+                    <input type="file" id="postImage" name="postImage" accept="image/*">
+                    <div class="image-upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p>Clique para selecionar uma imagem ou arraste uma imagem aqui</p>
+                    <img id="imagePreview" class="image-preview" alt="Preview da imagem">
+                </div>
+            </div>
+            <!-- botão de submit -->
+            <button type="submit" class="submit-btn">Publicar Post</button>
+        </form>
+    </main>
+    <!-----  fim do conteúdo principal  ----->
+
+    <!-----  footer  ----->
+    <footer>
+        <p>@ 2025 Axel Tavernard. Todos os direitos reservados</p>
+        <a href="https://github.com/AxelTav001" target="_blank">Github</a>
+        <a href="https://www.linkedin.com/in/axel-tavernard-54a57b247/" target="_blank">Linkedin</a>
+    </footer>
+    <!-----  fim do footer  ----->
+
+    <!-----  scripts do formulário  ----->
+    <script>
+        // Preview da imagem
+        const imageUpload = document.getElementById('imageUpload');
+        const postImage = document.getElementById('postImage');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageUpload.addEventListener('click', () => {
+            postImage.click();
+        });
+
+        postImage.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and drop
+        imageUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = 'var(--primary-color)';
+            imageUpload.style.backgroundColor = 'rgba(26, 115, 232, 0.05)';
+        });
+
+        imageUpload.addEventListener('dragleave', () => {
+            imageUpload.style.borderColor = '#dadce0';
+            imageUpload.style.backgroundColor = 'transparent';
+        });
+
+        imageUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = '#dadce0';
+            imageUpload.style.backgroundColor = 'transparent';
+
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                postImage.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Validação do formulário
+        const form = document.getElementById('createPostForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Aqui você pode adicionar a lógica para enviar o post para o servidor
+            alert('Post criado com sucesso!');
+            form.reset();
+            imagePreview.classList.remove('active');
+        });
+    </script>
+    <!-----  fim dos scripts do formulário  --- -->
+</body>
+</html>
